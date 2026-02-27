@@ -1,2 +1,2 @@
-# CS-382-Repo
+# CS-382-Assignment1
 For Assignment 1
