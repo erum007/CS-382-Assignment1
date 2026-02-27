@@ -240,7 +240,6 @@ These boundaries represent all the points where data crosses different levels of
 ## **Game Integrity Controls**
 
 - Server-side score validation, never trust client score, verify always
-- No trust in client score 
 - Replay detection to prevent use of a reward more than once
 - Reward cap enforcement to limit the maximum number to attainable points
 
