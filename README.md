@@ -1,4 +1,7 @@
 # CS-382-Assignment1
+
+# **Option 1: Web Application With Online Payment Processing System**
+
 # **Task 1**
 
 This report aims to outline the security architecture and threat model of an internet-facing tourism assistance platform developed as part of TEKNOFEST, a global technology competition project in 2022.  It integrates mapping APIs, AI services, translation systems, mini-games, and payment gateways. The system has the following features: 
