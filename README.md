@@ -65,7 +65,7 @@ The architecture is cloud-agnostic. The system can be deployed on any infrastruc
 - IBM Watson APIs for the web application’s agent.
 - PayPal Payment Gateway integration that can work with user wallet currency.
 - MetaMask connected with the user’s wallet. 
-- Google Forms for reviews by customers.
+- Google Forms for bookings and reviews by customers.
 - AirTable embed links into webpage dropdowns.
 
 ## **Administrative Access**
@@ -95,7 +95,8 @@ The architecture is cloud-agnostic. The system can be deployed on any infrastruc
 - Wallet balances 
 - Translation content 
 - Voice recordings (temporary processing) 
-- Logs and audit records 
+- Logs and audit records
+- Google Forms input (external on Forms URL)
 
 ## **Trust Boundaries**
 
