@@ -25,7 +25,8 @@ The exact technology stack for the application includes:
 - Node.js 
 - Python 
 - Vue.js 
-- Unity WebGL 
+- Unity WebGL
+- Airtable API
 
 The architecture is cloud-agnostic. The system can be deployed on any infrastructure provider such as public cloud. Third-party APIs (Google, Azure, IBM) are consumed as external services and do not impose infrastructure-level vendor lock-in. The application is assumed to be internet-facing (was in the past, but is now down due to expired API keys and the fact that the console accounts have not been renewed.) 
 
@@ -36,6 +37,8 @@ The architecture is cloud-agnostic. The system can be deployed on any infrastruc
 - JavaScript/JQuery logic for a smooth and seamless user experience through event handline, AJAX, effects and animations. 
 - Embedded Unity WebGL game in an iframe. 
 - Client-side API consumption such as for language translation and location services support.
+- Link to Google Forms to partner associate brands' booking and feedback forms
+- Trip planning feature working with Airtable database on a webpage on a click.
 
 ## **Backend Layer**
 
@@ -47,7 +50,8 @@ The architecture is cloud-agnostic. The system can be deployed on any infrastruc
 
 ## **Data Storage**
 
-- User account database (future MySQL support). 
+- User account database (future MySQL support).
+- Trip planning feature database.
 - Wallet balances gained through games.
 - Game reward records based on obtained scores in games.
 - Application logs for crashes, etc.
@@ -62,6 +66,7 @@ The architecture is cloud-agnostic. The system can be deployed on any infrastruc
 - PayPal Payment Gateway integration that can work with user wallet currency.
 - MetaMask connected with the user’s wallet. 
 - Google Forms for reviews by customers.
+- AirTable embed links into webpage dropdowns.
 
 ## **Administrative Access**
 
@@ -101,7 +106,7 @@ These boundaries represent all the points where data crosses different levels of
 | User (All Kinds) | Untrusted | Could be attacker |
 | Browser frontend | Untrusted | Can be modified |
 | Backend API | Trusted | We control logic |
-| Database | Semi-Trusted | External on Airtable |
+| Database | Semi-Trusted | External on Airtable/MySQL in future |
 | PayPal | Semi-trusted | External system |
 | Google APIs | Semi-trusted | External |
 | Azure | Semi-trusted | External |
@@ -132,6 +137,7 @@ These boundaries represent all the points where data crosses different levels of
 | Translation input/output | User data | C: Medium |
 | Logs | Audit | I: High |
 | Admin credentials | Critical | C: High |
+| Static Trip Planning Database (Airtable) based on User Budget |	Business / User Data |	I: High
 
 ## **Security Objectives**
 
@@ -143,7 +149,8 @@ These boundaries represent all the points where data crosses different levels of
 - Prevent wallet tampering such as that of balance.
 - Prevent game score manipulation to avoid inflation of score by hacking or reduction of it through an attack. etc.
 - Ensure payment authenticity and that only the exact amount involved in the transaction is affected. 
-- Protect logs of activities from modification. 
+- Protect logs of activities from modification.
+- Keep budget trip planning database accurate for smooth trip planning based on budget.
 
 ### **Availability**
 - Ensure service uptime and minimal downtime.
@@ -167,7 +174,7 @@ These boundaries represent all the points where data crosses different levels of
 | Wallet manipulation | Tampering | Backend | Financial loss | High |
 | Game score manipulation | Tampering | Client | Financial loss | High |
 | Fake MetaMask/PayPal callback | Spoofing | Payment System | Financial fraud | High |
-| SQL injection | Tampering | Backend | Data breach of data in database | High |
+| SQL injection in future database | Tampering | Backend | Data breach of data in database | High |
 | DDoS attack | DoS | Web tier | Service outage and increased downtime | Medium |
 | Admin privilege escalation | Elevation | Admin Panel | Full compromise of all sensitive data | High |
 | Unverified free to pro user status | Elevation | Pro User Panel | Financial loss | High |
@@ -186,10 +193,10 @@ These boundaries represent all the points where data crosses different levels of
 
 - Role-Based Access Control (RBAC) 
 - Separation of Admin and User planes 
-- Multi-Factor Authentication for Free/Pro/Admin Users with password and OTP both, for example.
+- Multi-Factor Authentication for Free/Pro/Admin Users with password and OTP both, for example
 - Obvious but password hashing at the backend (store hashes not plaintext)
 - OAuth-based authentication 
-- Short-lived access tokens, when a new one is generated, the old one is useless.
+- Short-lived access tokens, when a new one is generated, the old one is useless
 - Secure session cookies/sessions should timeout in case of inactivity (JWT expiration)
 
 ## **Network Segmentation and Controls**
@@ -198,13 +205,13 @@ These boundaries represent all the points where data crosses different levels of
 - Private Application Tier (backend logic) 
 - Isolated Database Tier (data storage)
 - No direct database exposure 
-- Firewall between tiers to control who talks to whom.
+- Firewall between tiers to control who talks to whom
 - Reverse proxy that receives traffic before your real server
 - WAF (Web Application Firewall) that blocks attacks
-- API Gateway that manages all API requests.
-- Private subnet backend not directly accessible from the internet.
-- Database not internet-accessible, DB only talks to backend, never to public.
-- Outbound API calls are restricted so that that server is only allowed to call specific APIs.
+- API Gateway that manages all API requests
+- Private subnet backend not directly accessible from the internet
+- Database not internet-accessible, DB only talks to backend, never to public
+- Outbound API calls are restricted so that that server is only allowed to call specific APIs
 
 ## **Data Protection**
 
@@ -253,7 +260,7 @@ These boundaries represent all the points where data crosses different levels of
 | Wallet manipulation | Tampering | High | Server-side validation, transaction logs, and integrity checks | Mitigate | Low | Backend vulnerability could still be exploited |
 | Game score manipulation | Tampering | High | Server-side score validation, replay detection | Mitigate | Low | Logic flaws may still exist |
 | Fake PayPal / MetaMask callback | Spoofing | High | Webhook signature verification and server-side payment validation | Mitigate | Low | Payment provider compromise is external risk and mostly out of our hands |
-| SQL Injection | Tampering | High | Parameterized queries and input validation | Mitigate | Low | New injection vectors may emerge |
+| SQL Injection in future database | Tampering | High | Parameterized queries and input validation | Mitigate | Low | New injection vectors may emerge |
 | DDoS attack | Denial of Service | Medium | Rate limiting, CDN and WAF | Mitigate | Medium | Large-scale attacks may still overwhelm infrastructure |
 | Admin privilege escalation | Elevation of Privilege | High | Strict RBAC, MFA and admin audit logs | Mitigate | Medium | Zero-day or misconfiguration risk remains |
 | Unverified free-to-pro upgrade | Elevation of Privilege | High | Server-side subscription verification | Mitigate | Low | Logic bugs may still exist and raise tier level |
